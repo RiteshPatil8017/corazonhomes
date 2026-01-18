@@ -3,11 +3,15 @@ import React, { useEffect, useState } from 'react';
 const AchievementGallery = ({ limit }) => {
   const [achievements, setAchievements] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+  // Use the environment variable for the API URL
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/gallery');
+        // Use the dynamic API_URL here
+        const response = await fetch(`${API_URL}/api/gallery`);
         const data = await response.json();
         
         // If a limit is provided (like on Home page), slice the data.
@@ -23,7 +27,7 @@ const AchievementGallery = ({ limit }) => {
       setLoading(false);
     };
     fetchData();
-  }, [limit]); // Re-run if limit changes
+  }, [limit, API_URL]); // Added API_URL to dependency array
 
   return (
     <section id="gallery" className="py-24 bg-white min-h-screen">

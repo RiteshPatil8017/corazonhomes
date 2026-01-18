@@ -5,6 +5,9 @@ const UploadGallery = () => {
   const [imageFile, setImageFile] = useState(null);
   const [uploading, setUploading] = useState(false);
 
+  // Use the environment variable for the API URL
+  const API_URL = import.meta.env.VITE_API_URL;
+
   // Helper: File -> Base64
   const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -23,8 +26,8 @@ const UploadGallery = () => {
     try {
       const base64Image = await convertToBase64(imageFile);
 
-      // SEND TO MONGODB BACKEND
-      const response = await fetch('http://localhost:5000/api/gallery/upload', {
+      // SEND TO MONGODB BACKEND using dynamic API_URL
+      const response = await fetch(`${API_URL}/api/gallery/upload`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title, image: base64Image }),
