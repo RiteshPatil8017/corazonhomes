@@ -78,7 +78,7 @@ const Footer = () => {
       {/* BOTTOM BAR */}
       <div className="max-w-[95rem] mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center text-center md:text-left text-xs text-gray-500 gap-4">
         <p>© 2026 Corazon Homes. All Right Reserved.</p>
-        <p>Designed & Promoted By : <span className="text-white">Opstech Solution</span></p>
+        <p>Designed & Promoted By : <span className="text-white">Brandkrit Technologies</span></p>
       </div>
     </footer>
   );
