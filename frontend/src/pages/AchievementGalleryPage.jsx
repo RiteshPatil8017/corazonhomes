@@ -3,8 +3,8 @@ import AchievementGallery from '../components/AchievementGallery';
 
 const AchievementGalleryPage = () => {
   return (
-    // Increased top padding to pt-36 to create space after Hero section
-    <div className="pt-36">
+    // Reduced from pt-36 to pt-24 for less space below navbar
+    <div className="pt-16">
       {/* Reusing the component without a limit to show ALL images */}
       <AchievementGallery />
     </div>
