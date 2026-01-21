@@ -39,7 +39,6 @@ const Hero = () => {
     setUnitType(''); 
   };
 
-  // Handle Location Typing
   const handleLocationChange = (e) => {
     const value = e.target.value;
     setLocation(value);
@@ -55,7 +54,6 @@ const Hero = () => {
     }
   };
 
-  // Handle Selection via MouseDown to prevent Blur conflict
   const selectSuggestion = (loc) => {
     setLocation(loc);
     setShowSuggestions(false);
@@ -73,7 +71,7 @@ const Hero = () => {
   return (
     <section className="relative w-full h-[100dvh] min-h-[600px] flex flex-col justify-center items-center text-white overflow-hidden">
       
-      {/* 1. Background Image: Lowest Layer (z-0) */}
+      {/* LAYER 1: Background Image (z-0) */}
       <div className="absolute inset-0 z-0">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105 animate-slow-zoom"
@@ -82,7 +80,7 @@ const Hero = () => {
         <div className="absolute inset-0 bg-black/40 md:bg-black/50"></div>
       </div>
 
-      {/* 2. Main Content: Highest Layer (z-40) to float ABOVE stats */}
+      {/* LAYER 3: Main Content (z-40) - Ensures text is above stats */}
       <div className="relative z-40 w-full max-w-7xl mx-auto px-4 sm:px-6 flex flex-col items-center justify-center h-full pb-20 md:pb-0">
         
         <p className="text-base sm:text-lg md:text-xl mb-4 font-light tracking-wider text-center drop-shadow-md">
@@ -92,8 +90,8 @@ const Hero = () => {
           Find Your Perfect Home
         </h1>
 
-        {/* Search Container */}
-        <div className="w-full max-w-[95%] sm:max-w-2xl lg:max-w-5xl bg-white/10 backdrop-blur-md p-4 sm:p-6 rounded-xl shadow-2xl border border-white/20">
+        {/* LAYER 4: Search Container (z-50) - Highest Priority */}
+        <div className="w-full max-w-[95%] sm:max-w-2xl lg:max-w-5xl bg-white/10 backdrop-blur-md p-4 sm:p-6 rounded-xl shadow-2xl border border-white/20 relative z-50">
           
           {/* Tabs */}
           <div className="flex justify-center mb-6 space-x-6 sm:space-x-8">
@@ -115,10 +113,10 @@ const Hero = () => {
             </button>
           </div>
 
-          {/* Search Bar - Flex Column on Mobile */}
-          <div className="flex flex-col lg:flex-row bg-white rounded-lg shadow-lg overflow-visible divide-y lg:divide-y-0 lg:divide-x divide-gray-100">
+          {/* Search Bar Inputs */}
+          <div className="flex flex-col lg:flex-row bg-white rounded-lg shadow-lg overflow-visible divide-y lg:divide-y-0 lg:divide-x divide-gray-100 relative z-50">
             
-            {/* Unit Type - z-20: Needs to be lower than City Search dropdown */}
+            {/* Unit Type (z-20) */}
             <div className="relative z-20 w-full lg:w-1/4 border-b lg:border-b-0 lg:border-r border-gray-200 group">
               <select 
                 value={unitType}
@@ -134,7 +132,7 @@ const Hero = () => {
               <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-400 text-xs">▼</div>
             </div>
 
-            {/* City Search - z-50: HIGHEST to allow dropdown to cover other inputs */}
+            {/* City Search (z-50) */}
             <div className="relative z-50 w-full lg:flex-grow border-b lg:border-b-0 lg:border-r border-gray-200 group">
               <input 
                 type="text" 
@@ -147,9 +145,9 @@ const Hero = () => {
               />
               <MapPin className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 hidden sm:block pointer-events-none group-hover:text-yellow-600 transition" />
 
-              {/* Suggestions Dropdown */}
+              {/* Suggestions Dropdown (z-[100]) */}
               {showSuggestions && suggestions.length > 0 && (
-                <ul className="absolute top-full left-0 right-0 bg-white border border-gray-100 rounded-b-lg shadow-2xl mt-1 max-h-60 overflow-y-auto z-50">
+                <ul className="absolute top-full left-0 right-0 bg-white border border-gray-100 rounded-b-lg shadow-2xl mt-1 max-h-60 overflow-y-auto z-[100]">
                   {suggestions.map((loc, index) => (
                     <li 
                       key={index}
@@ -164,8 +162,8 @@ const Hero = () => {
               )}
             </div>
 
-            {/* Budget - z-10 */}
-            <div className="relative z-10 w-full lg:w-1/4 border-b lg:border-b-0 border-gray-200 group">
+            {/* Budget (z-20) */}
+            <div className="relative z-20 w-full lg:w-1/4 border-b lg:border-b-0 border-gray-200 group">
               <select 
                 value={budget}
                 onChange={(e) => setBudget(e.target.value)}
@@ -177,11 +175,11 @@ const Hero = () => {
               <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-400 text-xs">▼</div>
             </div>
 
-            {/* Search Button - relative z-0: Lowest in stack so City Dropdown covers it if needed */}
+            {/* Search Button (z-10 relative) - Kept low so dropdowns cover it */}
             <button 
               type="button" 
               onClick={handleSearch}
-              className="w-full lg:w-auto px-8 h-14 bg-[#ff385c] text-white font-bold hover:bg-[#e03050] transition-colors flex items-center justify-center gap-2 lg:rounded-r-lg lg:rounded-bl-none rounded-b-lg group relative z-0"
+              className="w-full lg:w-auto px-8 h-14 bg-[#ff385c] text-white font-bold hover:bg-[#e03050] transition-colors flex items-center justify-center gap-2 lg:rounded-r-lg lg:rounded-bl-none rounded-b-lg group relative z-10"
             >
               <Search className="w-5 h-5 group-hover:scale-110 transition-transform" />
               <span className="tracking-wider">SEARCH</span>
@@ -190,7 +188,7 @@ const Hero = () => {
         </div>
       </div>
       
-      {/* 3. Bottom Stats Section: Middle Layer (z-10) - Lower than Main Content */}
+      {/* LAYER 2: Bottom Stats Section (z-10) - Sits behind content */}
       <div className="absolute bottom-0 w-full z-10 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/80 to-transparent pt-16 pb-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 text-center text-white">
