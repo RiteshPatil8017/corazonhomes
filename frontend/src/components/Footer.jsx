@@ -12,7 +12,8 @@ const Footer = () => {
         <div className="flex flex-col items-start">
           <h3 className="text-lg font-bold mb-4 md:mb-6 tracking-wider text-yellow-500">ABOUT US</h3>
           <Link to="/" className="inline-block mb-6">
-            <img src={logo} alt="Corazon Homes" className="h-12 md:h-14 bg-white p-2 rounded-sm" />
+            {/* Removed 'bg-white' class to respect PNG transparency */}
+            <img src={logo} alt="Corazon Homes" className="h-12 md:h-14 p-2" />
           </Link>
           
           <div className="mb-6">
@@ -76,9 +77,8 @@ const Footer = () => {
       </div>
 
       {/* BOTTOM BAR */}
-      <div className="max-w-[95rem] mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center text-center md:text-left text-xs text-gray-500 gap-4">
+      <div className="max-w-[95rem] mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-gray-800 flex justify-center items-center text-xs text-gray-500">
         <p>© 2026 Corazon Homes. All Right Reserved.</p>
-        <p>Designed & Promoted By : <span className="text-white">Brandkrit Technologies</span></p>
       </div>
     </footer>
   );

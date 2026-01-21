@@ -71,7 +71,20 @@ const Hero = () => {
   return (
     <section className="relative w-full min-h-[100dvh] flex flex-col text-white overflow-x-hidden">
       
-      {/* LAYER 1: Background Image (Fixed to cover entire section) */}
+      {/* 1. Global Styles for hiding scrollbar */}
+      <style>
+        {`
+          .no-scrollbar::-webkit-scrollbar {
+            display: none;
+          }
+          .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+          }
+        `}
+      </style>
+
+      {/* LAYER 1: Background Image */}
       <div className="absolute inset-0 z-0">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105 animate-slow-zoom"
@@ -81,8 +94,6 @@ const Hero = () => {
       </div>
 
       {/* LAYER 2: Main Content */}
-      {/* Added 'flex-grow' to push stats down on mobile */}
-      {/* Changed 'justify-center' to allow natural spacing on mobile */}
       <div className="relative z-40 w-full max-w-7xl mx-auto px-4 sm:px-6 flex flex-col items-center justify-center flex-grow pt-32 pb-12 md:py-0">
         
         <p className="text-base sm:text-lg md:text-xl mb-4 font-light tracking-wider text-center drop-shadow-md">
@@ -92,8 +103,9 @@ const Hero = () => {
           Find Your Perfect Home
         </h1>
 
-        {/* Search Container */}
-        <div className="w-full max-w-[95%] sm:max-w-2xl lg:max-w-5xl bg-white/10 backdrop-blur-md p-4 sm:p-6 rounded-xl shadow-2xl border border-white/20 relative z-50">
+        {/* SEARCH CONTAINER */}
+        {/* mb-24 on mobile adds space below the search box so dropdown doesn't feel cramped */}
+        <div className="w-full max-w-[95%] sm:max-w-2xl lg:max-w-5xl bg-white/10 backdrop-blur-md p-4 sm:p-6 rounded-xl shadow-2xl border border-white/20 relative z-50 mb-24 md:mb-0">
           
           {/* Tabs */}
           <div className="flex justify-center mb-6 space-x-6 sm:space-x-8">
@@ -118,8 +130,8 @@ const Hero = () => {
           {/* Search Bar Inputs */}
           <div className="flex flex-col lg:flex-row bg-white rounded-lg shadow-lg overflow-visible divide-y lg:divide-y-0 lg:divide-x divide-gray-100 relative z-50">
             
-            {/* Unit Type */}
-            <div className="relative w-full lg:w-1/4 border-b lg:border-b-0 lg:border-r border-gray-200 group z-20">
+            {/* Unit Type (z-20) */}
+            <div className="relative z-20 w-full lg:w-1/4 border-b lg:border-b-0 lg:border-r border-gray-200 group">
               <select 
                 value={unitType}
                 onChange={(e) => setUnitType(e.target.value)}
@@ -134,8 +146,8 @@ const Hero = () => {
               <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-400 text-xs">▼</div>
             </div>
 
-            {/* City Search - Highest Z-Index for Dropdown */}
-            <div className="relative w-full lg:flex-grow border-b lg:border-b-0 lg:border-r border-gray-200 group z-50">
+            {/* City Search (z-50) */}
+            <div className="relative z-50 w-full lg:flex-grow border-b lg:border-b-0 lg:border-r border-gray-200 group">
               <input 
                 type="text" 
                 value={location}
@@ -149,7 +161,7 @@ const Hero = () => {
 
               {/* Suggestions Dropdown */}
               {showSuggestions && suggestions.length > 0 && (
-                <ul className="absolute top-full left-0 right-0 bg-white border border-gray-100 rounded-b-lg shadow-2xl mt-1 max-h-60 overflow-y-auto z-[100]">
+                <ul className="absolute top-full left-0 right-0 bg-white border border-gray-100 rounded-b-lg shadow-2xl mt-1 max-h-60 overflow-y-auto z-[100] no-scrollbar">
                   {suggestions.map((loc, index) => (
                     <li 
                       key={index}
@@ -164,8 +176,8 @@ const Hero = () => {
               )}
             </div>
 
-            {/* Budget */}
-            <div className="relative w-full lg:w-1/4 border-b lg:border-b-0 border-gray-200 group z-20">
+            {/* Budget (z-20) */}
+            <div className="relative z-20 w-full lg:w-1/4 border-b lg:border-b-0 border-gray-200 group">
               <select 
                 value={budget}
                 onChange={(e) => setBudget(e.target.value)}
@@ -177,7 +189,7 @@ const Hero = () => {
               <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-400 text-xs">▼</div>
             </div>
 
-            {/* Search Button */}
+            {/* Search Button (z-10) */}
             <button 
               type="button" 
               onClick={handleSearch}
@@ -191,7 +203,6 @@ const Hero = () => {
       </div>
       
       {/* LAYER 3: Stats Section */}
-      {/* Mobile: 'relative' (stacks after search). Desktop: 'absolute bottom-0' (overlays at bottom) */}
       <div className="relative md:absolute bottom-0 w-full z-20 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/80 to-transparent pt-12 pb-8 mt-4 md:mt-0">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 text-center text-white">
