@@ -73,7 +73,7 @@ const Hero = () => {
   return (
     <section className="relative w-full h-[100dvh] min-h-[600px] flex flex-col justify-center items-center text-white overflow-hidden">
       
-      {/* Background Image */}
+      {/* 1. Background Image: Lowest Layer (z-0) */}
       <div className="absolute inset-0 z-0">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105 animate-slow-zoom"
@@ -82,8 +82,8 @@ const Hero = () => {
         <div className="absolute inset-0 bg-black/40 md:bg-black/50"></div>
       </div>
 
-      {/* Main Content - z-30 ensures it's above the background/stats */}
-      <div className="relative z-30 w-full max-w-7xl mx-auto px-4 sm:px-6 flex flex-col items-center justify-center h-full pb-20 md:pb-0">
+      {/* 2. Main Content: Highest Layer (z-40) to float ABOVE stats */}
+      <div className="relative z-40 w-full max-w-7xl mx-auto px-4 sm:px-6 flex flex-col items-center justify-center h-full pb-20 md:pb-0">
         
         <p className="text-base sm:text-lg md:text-xl mb-4 font-light tracking-wider text-center drop-shadow-md">
           It's great to be home!
@@ -115,10 +115,10 @@ const Hero = () => {
             </button>
           </div>
 
-          {/* Search Bar */}
+          {/* Search Bar - Flex Column on Mobile */}
           <div className="flex flex-col lg:flex-row bg-white rounded-lg shadow-lg overflow-visible divide-y lg:divide-y-0 lg:divide-x divide-gray-100">
             
-            {/* Unit Type - z-20: Needs to be lower than City Search */}
+            {/* Unit Type - z-20: Needs to be lower than City Search dropdown */}
             <div className="relative z-20 w-full lg:w-1/4 border-b lg:border-b-0 lg:border-r border-gray-200 group">
               <select 
                 value={unitType}
@@ -134,7 +134,7 @@ const Hero = () => {
               <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-400 text-xs">▼</div>
             </div>
 
-            {/* City Search - z-50: HIGHEST to cover everything below it */}
+            {/* City Search - z-50: HIGHEST to allow dropdown to cover other inputs */}
             <div className="relative z-50 w-full lg:flex-grow border-b lg:border-b-0 lg:border-r border-gray-200 group">
               <input 
                 type="text" 
@@ -164,7 +164,7 @@ const Hero = () => {
               )}
             </div>
 
-            {/* Budget - z-10: Lower than City Search */}
+            {/* Budget - z-10 */}
             <div className="relative z-10 w-full lg:w-1/4 border-b lg:border-b-0 border-gray-200 group">
               <select 
                 value={budget}
@@ -177,7 +177,7 @@ const Hero = () => {
               <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-400 text-xs">▼</div>
             </div>
 
-            {/* Search Button - relative z-0: Lowest, so dropdown covers it */}
+            {/* Search Button - relative z-0: Lowest in stack so City Dropdown covers it if needed */}
             <button 
               type="button" 
               onClick={handleSearch}
@@ -190,8 +190,8 @@ const Hero = () => {
         </div>
       </div>
       
-      {/* Bottom Stats Section */}
-      <div className="absolute bottom-0 w-full z-20 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/80 to-transparent pt-16 pb-8">
+      {/* 3. Bottom Stats Section: Middle Layer (z-10) - Lower than Main Content */}
+      <div className="absolute bottom-0 w-full z-10 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/80 to-transparent pt-16 pb-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 text-center text-white">
             <div className="flex flex-col items-center">
