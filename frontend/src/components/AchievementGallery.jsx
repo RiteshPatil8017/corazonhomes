@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { X } from 'lucide-react';
+import { X, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const AchievementGallery = ({ limit }) => {
   const [achievements, setAchievements] = useState([]);
@@ -32,11 +33,35 @@ const AchievementGallery = ({ limit }) => {
     // Changed py-15 to pt-8 pb-16 to reduce top space
     <section id="gallery" className="pt-8 pb-16 bg-white min-h-screen">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-12"> {/* Reduced mb-16 to mb-12 */}
+        
+        {/* Header Section: Added 'relative' to position the button absolutely */}
+        <div className="relative text-center mb-12">
           <h2 className="font-serif text-4xl text-gray-900 mb-4 uppercase tracking-wide">Achievement Gallery</h2>
           <div className="w-24 h-1 bg-yellow-600 mx-auto"></div>
           <p className="mt-4 text-gray-500 font-light">Celebrating our milestones and success stories</p>
+
+          {/* See All Link - Positioned Absolute Right */}
+          {limit && (
+            <Link 
+              to="/gallery" 
+              className="absolute right-0 top-1/2 -translate-y-1/2 hidden md:flex items-center gap-2 text-sm font-bold text-gray-900 hover:text-yellow-600 transition-colors uppercase tracking-wider"
+            >
+              See All <ArrowRight size={16} />
+            </Link>
+          )}
         </div>
+
+        {/* Mobile See All Button (Visible only on small screens) */}
+        {limit && (
+          <div className="md:hidden flex justify-end mb-6">
+            <Link 
+              to="/gallery" 
+              className="flex items-center gap-2 text-sm font-bold text-gray-900 hover:text-yellow-600 transition-colors uppercase tracking-wider"
+            >
+              See All <ArrowRight size={16} />
+            </Link>
+          </div>
+        )}
 
         {loading ? (
           <div className="text-center text-gray-400">Loading Gallery...</div>

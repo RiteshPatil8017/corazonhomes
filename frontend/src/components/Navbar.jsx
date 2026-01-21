@@ -28,12 +28,17 @@ const Navbar = () => {
   }, []);
 
   return (
-    // Updated nav class: Transparent at top, White on Hover or Scroll or when Menu Open
-    <nav className={`fixed w-full z-50 transition-all duration-300 border-b ${
-      scrolled || isOpen 
-        ? 'bg-white/95 backdrop-blur-md border-gray-100 shadow-sm' 
-        : 'bg-transparent border-transparent hover:bg-white/95 hover:backdrop-blur-md hover:border-gray-100 hover:shadow-sm'
-    }`}>
+    // Updated nav class logic:
+    // 1. Base: fixed w-full z-50 transition-all border-b
+    // 2. Mobile (Default): 'bg-white' (Always white on mobile)
+    // 3. Desktop (xl:): 'bg-transparent' (Transparent initially)
+    // 4. Desktop Hover/Scroll: 'xl:hover:bg-white', 'xl:bg-white' (when scrolled)
+    <nav className={`fixed w-full z-50 transition-all duration-300 border-b 
+      ${scrolled || isOpen 
+        ? 'bg-white border-gray-100 shadow-sm' 
+        : 'bg-white border-gray-100 xl:bg-transparent xl:border-transparent xl:hover:bg-white/95 xl:hover:backdrop-blur-md xl:hover:border-gray-100 xl:hover:shadow-sm'
+      }`}
+    >
       {/* Container - increased max-width for better spacing on large screens */}
       <div className="max-w-[95rem] mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
         
