@@ -82,7 +82,7 @@ const Hero = () => {
         <div className="absolute inset-0 bg-black/40 md:bg-black/50"></div>
       </div>
 
-      {/* Main Content - CHANGED z-10 to z-30 to fix mobile click issue */}
+      {/* Main Content - z-30 ensures it's above the background/stats */}
       <div className="relative z-30 w-full max-w-7xl mx-auto px-4 sm:px-6 flex flex-col items-center justify-center h-full pb-20 md:pb-0">
         
         <p className="text-base sm:text-lg md:text-xl mb-4 font-light tracking-wider text-center drop-shadow-md">
@@ -118,8 +118,8 @@ const Hero = () => {
           {/* Search Bar */}
           <div className="flex flex-col lg:flex-row bg-white rounded-lg shadow-lg overflow-visible divide-y lg:divide-y-0 lg:divide-x divide-gray-100">
             
-            {/* Unit Type - z-10 */}
-            <div className="relative w-full lg:w-1/4 border-b lg:border-b-0 lg:border-r border-gray-200 group z-10">
+            {/* Unit Type - z-20: Needs to be lower than City Search */}
+            <div className="relative z-20 w-full lg:w-1/4 border-b lg:border-b-0 lg:border-r border-gray-200 group">
               <select 
                 value={unitType}
                 onChange={(e) => setUnitType(e.target.value)}
@@ -134,8 +134,8 @@ const Hero = () => {
               <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-400 text-xs">▼</div>
             </div>
 
-            {/* City Search - z-50 (HIGHEST) */}
-            <div className="relative w-full lg:flex-grow border-b lg:border-b-0 lg:border-r border-gray-200 group z-50">
+            {/* City Search - z-50: HIGHEST to cover everything below it */}
+            <div className="relative z-50 w-full lg:flex-grow border-b lg:border-b-0 lg:border-r border-gray-200 group">
               <input 
                 type="text" 
                 value={location}
@@ -164,8 +164,8 @@ const Hero = () => {
               )}
             </div>
 
-            {/* Budget - z-10 */}
-            <div className="relative w-full lg:w-1/4 border-b lg:border-b-0 border-gray-200 group z-10">
+            {/* Budget - z-10: Lower than City Search */}
+            <div className="relative z-10 w-full lg:w-1/4 border-b lg:border-b-0 border-gray-200 group">
               <select 
                 value={budget}
                 onChange={(e) => setBudget(e.target.value)}
@@ -177,11 +177,11 @@ const Hero = () => {
               <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-400 text-xs">▼</div>
             </div>
 
-            {/* Search Button - z-10 */}
+            {/* Search Button - relative z-0: Lowest, so dropdown covers it */}
             <button 
               type="button" 
               onClick={handleSearch}
-              className="w-full lg:w-auto px-8 h-14 bg-[#ff385c] text-white font-bold hover:bg-[#e03050] transition-colors flex items-center justify-center gap-2 lg:rounded-r-lg lg:rounded-bl-none rounded-b-lg group z-10"
+              className="w-full lg:w-auto px-8 h-14 bg-[#ff385c] text-white font-bold hover:bg-[#e03050] transition-colors flex items-center justify-center gap-2 lg:rounded-r-lg lg:rounded-bl-none rounded-b-lg group relative z-0"
             >
               <Search className="w-5 h-5 group-hover:scale-110 transition-transform" />
               <span className="tracking-wider">SEARCH</span>
@@ -190,7 +190,7 @@ const Hero = () => {
         </div>
       </div>
       
-      {/* Bottom Stats Section - z-20 (Kept as is, but Main Content is now z-30) */}
+      {/* Bottom Stats Section */}
       <div className="absolute bottom-0 w-full z-20 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/80 to-transparent pt-16 pb-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 text-center text-white">
