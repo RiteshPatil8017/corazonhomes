@@ -203,7 +203,7 @@ const Hero = () => {
       </div>
       
       {/* LAYER 3: Stats Section */}
-      <div className="relative md:absolute bottom-0 w-full z-20 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/80 to-transparent pt-12 pb-8 mt-4 md:mt-0">
+      <div className="relative md:absolute bottom-0 w-full z-20 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/80 to-transparent pt-12 pb-6 mt-4 md:mt-0">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 text-center text-white">
             <div className="flex flex-col items-center">
