@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Menu, X, Phone, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false); // State to track scroll position
+
   // Independent states for mobile dropdowns
   const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false);
   const [benefitsDropdownOpen, setBenefitsDropdownOpen] = useState(false);
@@ -16,8 +18,22 @@ const Navbar = () => {
     setBenefitsDropdownOpen(false);
   };
 
+  // Handle Scroll Effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <nav className="fixed w-full bg-white/95 backdrop-blur-md border-b border-gray-100 z-50">
+    // Updated nav class: Transparent at top, White on Hover or Scroll or when Menu Open
+    <nav className={`fixed w-full z-50 transition-all duration-300 border-b ${
+      scrolled || isOpen 
+        ? 'bg-white/95 backdrop-blur-md border-gray-100 shadow-sm' 
+        : 'bg-transparent border-transparent hover:bg-white/95 hover:backdrop-blur-md hover:border-gray-100 hover:shadow-sm'
+    }`}>
       {/* Container - increased max-width for better spacing on large screens */}
       <div className="max-w-[95rem] mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
         

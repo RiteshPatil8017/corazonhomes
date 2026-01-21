@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { X } from 'lucide-react';
 
 const AchievementGallery = ({ limit }) => {
   const [achievements, setAchievements] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedImage, setSelectedImage] = useState(null); // State to track the opened image
   
   // Use the environment variable for the API URL
   const API_URL = import.meta.env.VITE_API_URL;
@@ -10,12 +12,9 @@ const AchievementGallery = ({ limit }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Use the dynamic API_URL here
         const response = await fetch(`${API_URL}/api/gallery`);
         const data = await response.json();
         
-        // If a limit is provided (like on Home page), slice the data.
-        // Otherwise (like on Gallery page), show everything.
         if (limit) {
           setAchievements(data.slice(0, limit));
         } else {
@@ -27,7 +26,7 @@ const AchievementGallery = ({ limit }) => {
       setLoading(false);
     };
     fetchData();
-  }, [limit, API_URL]); // Added API_URL to dependency array
+  }, [limit, API_URL]);
 
   return (
     <section id="gallery" className="py-15 bg-white min-h-screen">
@@ -43,14 +42,22 @@ const AchievementGallery = ({ limit }) => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {achievements.map((item, index) => (
-              <div key={index} className="group relative overflow-hidden cursor-pointer shadow-lg border border-gray-100">
+              <div 
+                key={index} 
+                onClick={() => setSelectedImage(item.imageData)} // Open Image on Click
+                className="group relative overflow-hidden cursor-pointer shadow-lg border border-gray-100 hover:-translate-y-1 transition-transform duration-300"
+              >
                 <div className="h-80 overflow-hidden">
-                   {/* This displays the Base64 image from MongoDB */}
+                   {/* Displays Base64 image */}
                    <img 
                     src={item.imageData} 
                     alt={item.title} 
                     className="w-full h-full object-cover transition duration-700 group-hover:scale-110" 
                   />
+                  {/* Overlay icon to indicate clickability */}
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100 duration-300">
+                    <span className="text-white border border-white px-4 py-2 text-sm uppercase tracking-widest">View Full</span>
+                  </div>
                 </div>
                 <div className="p-4 bg-white text-center">
                    <h3 className="text-lg font-serif text-gray-800">{item.title}</h3>
@@ -66,7 +73,32 @@ const AchievementGallery = ({ limit }) => {
           </div>
         )}
       </div>
+
+      {/* --- LIGHTBOX MODAL --- */}
+      {selectedImage && (
+        <div 
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-sm p-4 transition-opacity duration-300"
+          onClick={() => setSelectedImage(null)} // Close when clicking background
+        >
+          {/* Close Button */}
+          <button 
+            className="absolute top-6 right-6 text-white/70 hover:text-yellow-500 transition-colors"
+            onClick={() => setSelectedImage(null)}
+          >
+            <X size={40} />
+          </button>
+
+          {/* Full Image */}
+          <img 
+            src={selectedImage} 
+            alt="Full Screen Achievement" 
+            className="max-w-full max-h-[90vh] object-contain rounded-sm shadow-2xl animate-fade-in-up"
+            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking the image itself
+          />
+        </div>
+      )}
     </section>
   );
 };
+
 export default AchievementGallery;
