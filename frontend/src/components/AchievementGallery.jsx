@@ -30,7 +30,7 @@ const AchievementGallery = ({ limit }) => {
   }, [limit, API_URL]); // Added API_URL to dependency array
 
   return (
-    <section id="gallery" className="py-24 bg-white min-h-screen">
+    <section id="gallery" className="py-15 bg-white min-h-screen">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="font-serif text-4xl text-gray-900 mb-4 uppercase tracking-wide">Achievement Gallery</h2>

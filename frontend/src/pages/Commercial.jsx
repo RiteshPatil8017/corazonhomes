@@ -1,15 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { Search, MapPin } from 'lucide-react';
+
+// Predefined Pune Locations for Suggestions
+const PUNE_LOCATIONS = [
+  "Aundh", "Balewadi", "Baner", "Bavdhan", "Bhosari", "Boat Club Road", 
+  "Camp", "Chakan", "Charholi", "Dhanori", "Hadapsar", "Hinjewadi", 
+  "Kalyani Nagar", "Kharadi", "Koregaon Park", "Kothrud", "Lohegaon", 
+  "Magarpatta", "Model Colony", "Moshi", "NIBM Road", "Pashan", 
+  "Pimple Gurav", "Pimple Nilakh", "Pimple Saudagar", "Pisoli", 
+  "Pradhikaran", "Punawale", "Ravet", "Shivajinagar", "Sinhagad Road", 
+  "Tathawade", "Undri", "Viman Nagar", "Wagholi", "Wakad", "Wanowrie", "Warje"
+];
 
 const Commercial = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchParams] = useSearchParams(); // Read URL params
+  const [searchParams] = useSearchParams();
   
   // Filter States
-  const [locationFilter, setLocationFilter] = useState(searchParams.get('location') || 'All');
+  const [locationFilter, setLocationFilter] = useState(searchParams.get('location') || '');
   const [budgetFilter, setBudgetFilter] = useState(searchParams.get('budget') || 'All');
   const [typeFilter, setTypeFilter] = useState(searchParams.get('type') || 'All');
+
+  // Autocomplete States
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -27,29 +43,23 @@ const Commercial = () => {
     fetchProjects();
   }, [API_URL]);
 
-  // --- HELPER: Parse Price ---
   const parsePrice = (priceStr) => {
     if (!priceStr) return 0;
     const cleanStr = priceStr.replace(/[₹,\s]/g, '').toLowerCase();
     const value = parseFloat(cleanStr);
-    
     if (cleanStr.includes('cr')) return value * 10000000;
     if (cleanStr.includes('lac') || cleanStr.includes('lakh')) return value * 100000;
-    
     return value; 
   };
 
   // --- FILTER LOGIC ---
   const filteredProjects = projects.filter(project => {
-    // 1. Location
-    const matchesLocation = locationFilter === 'All' || !locationFilter ||
+    const matchesLocation = locationFilter === '' || locationFilter === 'All' || 
       project.location.toLowerCase().includes(locationFilter.toLowerCase());
 
-    // 2. Unit Type
     const matchesType = typeFilter === 'All' || !typeFilter ||
       project.type.toLowerCase().includes(typeFilter.toLowerCase());
 
-    // 3. Budget
     let matchesBudget = true;
     if (budgetFilter !== 'All' && budgetFilter) {
       const priceVal = parsePrice(project.price);
@@ -62,7 +72,23 @@ const Commercial = () => {
     return matchesLocation && matchesBudget && matchesType;
   });
 
-  const uniqueLocations = [...new Set(projects.map(p => p.location.split(',')[0].trim()))];
+  // --- AUTOCOMPLETE HANDLERS ---
+  const handleLocationChange = (e) => {
+    const value = e.target.value;
+    setLocationFilter(value);
+    if (value.length > 0) {
+      const filtered = PUNE_LOCATIONS.filter(loc => loc.toLowerCase().includes(value.toLowerCase()));
+      setSuggestions(filtered);
+      setShowSuggestions(true);
+    } else {
+      setShowSuggestions(false);
+    }
+  };
+
+  const selectSuggestion = (loc) => {
+    setLocationFilter(loc);
+    setShowSuggestions(false);
+  };
 
   return (
     <div className="pt-24 pb-16 min-h-screen bg-gray-50">
@@ -80,22 +106,44 @@ const Commercial = () => {
         </div>
 
         {/* Filters Section */}
-        <div className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center mb-12">
+        <div className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center mb-12 relative z-20">
           
+          {/* Location Search with Autocomplete */}
+          <div className="relative w-full sm:w-auto min-w-[250px]">
+            <div className="relative">
+              <input 
+                type="text"
+                placeholder="Search Location..."
+                value={locationFilter === 'All' ? '' : locationFilter}
+                onChange={handleLocationChange}
+                onFocus={() => locationFilter.length > 0 && setShowSuggestions(true)}
+                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                className="w-full p-3 pl-10 border border-gray-200 bg-white text-gray-600 rounded-sm outline-none focus:border-yellow-600 shadow-sm transition"
+              />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+            </div>
+            
+            {/* Suggestions Dropdown */}
+            {showSuggestions && suggestions.length > 0 && (
+              <ul className="absolute top-full left-0 right-0 bg-white border border-gray-100 rounded-b-lg shadow-xl mt-1 max-h-60 overflow-y-auto z-50">
+                {suggestions.map((loc, index) => (
+                  <li 
+                    key={index}
+                    onMouseDown={() => selectSuggestion(loc)}
+                    className="px-4 py-2 hover:bg-gray-50 cursor-pointer text-gray-700 text-sm border-b border-gray-50 last:border-none flex items-center gap-2"
+                  >
+                    <MapPin size={14} className="text-gray-400" />
+                    {loc}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          
+          {/* Unit Type Dropdown */}
           <select 
             className="w-full sm:w-auto p-3 border border-gray-200 bg-white text-gray-600 rounded-sm outline-none focus:border-yellow-600 cursor-pointer shadow-sm min-w-[200px]"
-            value={locationFilter === 'All' || !locationFilter ? 'All' : locationFilter}
-            onChange={(e) => setLocationFilter(e.target.value)}
-          >
-            <option value="All">All Locations</option>
-            {uniqueLocations.map((loc, index) => (
-              <option key={index} value={loc}>{loc}</option>
-            ))}
-          </select>
-          
-          <select 
-            className="w-full sm:w-auto p-3 border border-gray-200 bg-white text-gray-600 rounded-sm outline-none focus:border-yellow-600 cursor-pointer shadow-sm min-w-[200px]"
-            value={typeFilter === 'All' || !typeFilter ? 'All' : typeFilter}
+            value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
           >
             <option value="All">All Types</option>
@@ -105,9 +153,10 @@ const Commercial = () => {
             <option value="Warehouse">Warehouse</option>
           </select>
 
+          {/* Budget Dropdown */}
           <select 
             className="w-full sm:w-auto p-3 border border-gray-200 bg-white text-gray-600 rounded-sm outline-none focus:border-yellow-600 cursor-pointer shadow-sm min-w-[200px]"
-            value={budgetFilter === 'All' || !budgetFilter ? 'All' : budgetFilter}
+            value={budgetFilter}
             onChange={(e) => setBudgetFilter(e.target.value)}
           >
             <option value="All">All Budgets</option>
@@ -118,7 +167,7 @@ const Commercial = () => {
           </select>
           
           <button 
-            onClick={() => { setLocationFilter('All'); setBudgetFilter('All'); setTypeFilter('All'); }}
+            onClick={() => { setLocationFilter(''); setBudgetFilter('All'); setTypeFilter('All'); }}
             className="w-full sm:w-auto bg-gray-900 text-white px-8 py-3 uppercase text-sm font-medium tracking-wider hover:bg-black transition shadow-md active:scale-95"
           >
             Reset Filters
@@ -137,37 +186,21 @@ const Commercial = () => {
               <div key={project._id} className="bg-white shadow-lg hover:shadow-2xl transition duration-300 group cursor-pointer rounded-lg overflow-hidden flex flex-col h-full animate-fade-in-up">
                 
                 <div className="relative overflow-hidden h-56 sm:h-64 shrink-0">
-                  <img 
-                    src={project.imageData} 
-                    alt={project.title} 
-                    className="w-full h-full object-cover transition duration-700 group-hover:scale-110"
-                  />
+                  <img src={project.imageData} alt={project.title} className="w-full h-full object-cover transition duration-700 group-hover:scale-110" />
                   <div className="absolute top-4 left-4 bg-gray-900 text-white text-[10px] sm:text-xs font-bold px-3 py-1 uppercase tracking-wider shadow-md">
                     Commercial
                   </div>
                 </div>
 
                 <div className="p-5 sm:p-6 flex flex-col flex-grow">
-                  <h3 className="text-lg sm:text-xl font-serif text-gray-900 mb-2 font-medium">
-                    {project.title}
-                  </h3>
-                  
-                  <p className="text-gray-500 text-xs sm:text-sm mb-4 flex items-center gap-1.5">
-                    <span>📍</span> {project.location}
-                  </p>
-                  
+                  <h3 className="text-lg sm:text-xl font-serif text-gray-900 mb-2 font-medium">{project.title}</h3>
+                  <p className="text-gray-500 text-xs sm:text-sm mb-4 flex items-center gap-1.5"><span>📍</span> {project.location}</p>
                   <div className="flex-grow border-t border-gray-100 mt-2"></div>
-
                   <div className="pt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
                     <span className="text-gray-700 text-sm font-medium">{project.type}</span>
-                    <span className="text-yellow-600 font-bold text-sm sm:text-base whitespace-nowrap">
-                      {project.price}
-                    </span>
+                    <span className="text-yellow-600 font-bold text-sm sm:text-base whitespace-nowrap">{project.price}</span>
                   </div>
-                  
-                  <button className="w-full border border-gray-900 text-gray-900 py-3 uppercase text-xs font-bold tracking-widest hover:bg-gray-900 hover:text-white transition active:scale-95">
-                    Enquire Now
-                  </button>
+                  <button className="w-full border border-gray-900 text-gray-900 py-3 uppercase text-xs font-bold tracking-widest hover:bg-gray-900 hover:text-white transition active:scale-95">Enquire Now</button>
                 </div>
               </div>
             ))}
@@ -177,12 +210,7 @@ const Commercial = () => {
         {!loading && filteredProjects.length === 0 && (
           <div className="text-center py-20 bg-white rounded-lg border border-dashed border-gray-300">
             <p className="text-gray-500 mb-2 font-serif text-lg">No commercial projects match your filters.</p>
-            <button 
-              onClick={() => { setLocationFilter('All'); setBudgetFilter('All'); setTypeFilter('All'); }}
-              className="text-yellow-600 hover:underline text-sm font-bold"
-            >
-              Clear Filters
-            </button>
+            <button onClick={() => { setLocationFilter(''); setBudgetFilter('All'); setTypeFilter('All'); }} className="text-yellow-600 hover:underline text-sm font-bold">Clear Filters</button>
           </div>
         )}
 
