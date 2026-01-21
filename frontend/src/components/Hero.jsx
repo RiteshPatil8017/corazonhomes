@@ -82,8 +82,8 @@ const Hero = () => {
         <div className="absolute inset-0 bg-black/40 md:bg-black/50"></div>
       </div>
 
-      {/* Main Content */}
-      <div className="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-6 flex flex-col items-center justify-center h-full pb-20 md:pb-0">
+      {/* Main Content - CHANGED z-10 to z-30 to fix mobile click issue */}
+      <div className="relative z-30 w-full max-w-7xl mx-auto px-4 sm:px-6 flex flex-col items-center justify-center h-full pb-20 md:pb-0">
         
         <p className="text-base sm:text-lg md:text-xl mb-4 font-light tracking-wider text-center drop-shadow-md">
           It's great to be home!
@@ -115,7 +115,7 @@ const Hero = () => {
             </button>
           </div>
 
-          {/* Search Bar - Note the Z-Index stacking here */}
+          {/* Search Bar */}
           <div className="flex flex-col lg:flex-row bg-white rounded-lg shadow-lg overflow-visible divide-y lg:divide-y-0 lg:divide-x divide-gray-100">
             
             {/* Unit Type - z-10 */}
@@ -134,7 +134,7 @@ const Hero = () => {
               <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-400 text-xs">▼</div>
             </div>
 
-            {/* City Search - z-50 (HIGHEST) to float over elements below */}
+            {/* City Search - z-50 (HIGHEST) */}
             <div className="relative w-full lg:flex-grow border-b lg:border-b-0 lg:border-r border-gray-200 group z-50">
               <input 
                 type="text" 
@@ -153,7 +153,6 @@ const Hero = () => {
                   {suggestions.map((loc, index) => (
                     <li 
                       key={index}
-                      // Use onMouseDown to ensure click registers before blur
                       onMouseDown={() => selectSuggestion(loc)}
                       className="px-6 py-3 hover:bg-gray-100 cursor-pointer text-gray-700 text-sm border-b border-gray-50 last:border-none flex items-center gap-2"
                     >
@@ -180,6 +179,7 @@ const Hero = () => {
 
             {/* Search Button - z-10 */}
             <button 
+              type="button" 
               onClick={handleSearch}
               className="w-full lg:w-auto px-8 h-14 bg-[#ff385c] text-white font-bold hover:bg-[#e03050] transition-colors flex items-center justify-center gap-2 lg:rounded-r-lg lg:rounded-bl-none rounded-b-lg group z-10"
             >
@@ -190,9 +190,9 @@ const Hero = () => {
         </div>
       </div>
       
-      {/* Bottom Stats Section */}
+      {/* Bottom Stats Section - z-20 (Kept as is, but Main Content is now z-30) */}
       <div className="absolute bottom-0 w-full z-20 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/80 to-transparent pt-16 pb-8">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 text-center text-white">
             <div className="flex flex-col items-center">
               <h3 className="text-lg md:text-xl font-semibold mb-1 text-yellow-400">Presence</h3>
