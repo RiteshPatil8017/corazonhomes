@@ -69,17 +69,18 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative w-full min-h-[100dvh] flex flex-col text-white overflow-x-hidden">
+    // MAIN CONTAINER: Fixed Height (100dvh) + No Scrollbar (overflow-hidden)
+    <section className="relative w-full h-[100dvh] flex flex-col justify-between text-white overflow-hidden">
       
-      {/* 1. Global Styles for hiding scrollbar */}
+      {/* 1. Global Styles for hiding Dropdown scrollbar */}
       <style>
         {`
           .no-scrollbar::-webkit-scrollbar {
             display: none;
           }
           .no-scrollbar {
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
+            -ms-overflow-style: none;
+            scrollbar-width: none;
           }
         `}
       </style>
@@ -93,8 +94,8 @@ const Hero = () => {
         <div className="absolute inset-0 bg-black/40 md:bg-black/50"></div>
       </div>
 
-      {/* LAYER 2: Main Content */}
-      <div className="relative z-40 w-full max-w-7xl mx-auto px-4 sm:px-6 flex flex-col items-center justify-center flex-grow pt-32 pb-12 md:py-0">
+      {/* LAYER 2: Main Content (Search) - Uses flex-grow to center itself */}
+      <div className="relative z-40 w-full max-w-7xl mx-auto px-4 sm:px-6 flex flex-col items-center justify-center flex-grow">
         
         <p className="text-base sm:text-lg md:text-xl mb-4 font-light tracking-wider text-center drop-shadow-md">
           It's great to be home!
@@ -104,8 +105,7 @@ const Hero = () => {
         </h1>
 
         {/* SEARCH CONTAINER */}
-        {/* mb-24 on mobile adds space below the search box so dropdown doesn't feel cramped */}
-        <div className="w-full max-w-[95%] sm:max-w-2xl lg:max-w-5xl bg-white/10 backdrop-blur-md p-4 sm:p-6 rounded-xl shadow-2xl border border-white/20 relative z-50 mb-24 md:mb-0">
+        <div className="w-full max-w-[95%] sm:max-w-2xl lg:max-w-5xl bg-white/10 backdrop-blur-md p-4 sm:p-6 rounded-xl shadow-2xl border border-white/20 relative z-50">
           
           {/* Tabs */}
           <div className="flex justify-center mb-6 space-x-6 sm:space-x-8">
@@ -159,7 +159,7 @@ const Hero = () => {
               />
               <MapPin className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 hidden sm:block pointer-events-none group-hover:text-yellow-600 transition" />
 
-              {/* Suggestions Dropdown */}
+              {/* Suggestions Dropdown (No Scrollbar) */}
               {showSuggestions && suggestions.length > 0 && (
                 <ul className="absolute top-full left-0 right-0 bg-white border border-gray-100 rounded-b-lg shadow-2xl mt-1 max-h-60 overflow-y-auto z-[100] no-scrollbar">
                   {suggestions.map((loc, index) => (
@@ -203,7 +203,8 @@ const Hero = () => {
       </div>
       
       {/* LAYER 3: Stats Section */}
-      <div className="relative md:absolute bottom-0 w-full z-20 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/80 to-transparent pt-12 pb-6 mt-4 md:mt-0">
+      {/* Flex container handles positioning, no absolute needed */}
+      <div className="relative z-30 w-full bg-gradient-to-t from-[#0f172a] via-[#0f172a]/80 to-transparent pt-12 pb-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 text-center text-white">
             <div className="flex flex-col items-center">
