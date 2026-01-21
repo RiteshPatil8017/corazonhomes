@@ -58,19 +58,19 @@ const Footer = () => {
           <ul className="space-y-4 text-sm text-gray-300">
             <li className="flex items-start">
               <MapPin className="text-yellow-500 mr-3 shrink-0 mt-0.5" size={18} />
-              <span className="leading-relaxed">Office No 404, City Avenue, Near Hotel Sayaji, Wakad Pune - 411057</span>
+              <span className="leading-relaxed">12 Green Lane, Kensington, London, W8 4PT, United Kingdom</span>
             </li>
             <li className="flex items-center">
               <Phone className="text-yellow-500 mr-3 shrink-0" size={18} />
-              <a href="tel:+917276004884" className="hover:text-white transition">+91-7276004884</a>
+              <a href="tel:+917276004884" className="hover:text-white transition">+91-9876543210</a>
             </li>
             <li className="flex items-center">
               <Mail className="text-yellow-500 mr-3 shrink-0" size={18} />
-              <a href="mailto:sales@corazonhomes.com" className="hover:text-yellow-500 transition break-all">sales@corazonhomes.com</a>
+              <a href="mailto:sales@corazonhomes.com" className="hover:text-yellow-500 transition break-all">abc@gmail.com</a>
             </li>
             <li className="flex items-center">
               <Globe className="text-yellow-500 mr-3 shrink-0" size={18} />
-              <a href="http://www.corazonhomes.com" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-500 transition break-all">www.corazonhomes.com</a>
+              <a href="http://www.corazonhomes.com" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-500 transition break-all">www.abc.com</a>
             </li>
           </ul>
         </div>
@@ -78,7 +78,7 @@ const Footer = () => {
 
       {/* BOTTOM BAR */}
       <div className="max-w-[95rem] mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-gray-800 flex justify-center items-center text-xs text-gray-500">
-        <p>© 2026 Corazon Homes. All Right Reserved.</p>
+        <p>© 2026 abc. All Right Reserved.</p>
       </div>
     </footer>
   );

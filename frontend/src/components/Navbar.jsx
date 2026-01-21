@@ -94,7 +94,7 @@ const Navbar = () => {
         <div className="flex items-center gap-2 sm:gap-4">
           <a href="tel:+917276004884" className="hidden sm:flex items-center gap-2 px-3 sm:px-4 py-2 bg-gray-900 text-white hover:bg-gray-800 transition text-xs sm:text-sm whitespace-nowrap">
             <Phone size={16} />
-            <span>+91 72760 04884</span>
+            <span>+91 9876543210</span>
           </a>
           <button className="xl:hidden text-gray-900 focus:outline-none p-2" onClick={toggleMenu}>
             {isOpen ? <X size={28} /> : <Menu size={28} />}
