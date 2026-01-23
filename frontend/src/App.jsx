@@ -19,6 +19,7 @@ import Referral from './pages/Benefits/Referral';
 import Residential from './pages/Residential';
 import Commercial from './pages/Commercial';
 import AchievementGalleryPage from './pages/AchievementGalleryPage'; 
+import EMICalculator from './pages/EMICalculator';
 
 // Unified Admin Page
 import Admin from './pages/Admin'; 
@@ -56,6 +57,7 @@ function App() {
           <Route path="/home-loan" element={<HomeLoan />} />
           <Route path="/group-booking" element={<GroupBooking />} />
           <Route path="/referral" element={<Referral />} />
+          <Route path="/emi-calculator" element={<EMICalculator />} />
 
           {/* SINGLE ADMIN ROUTE */}
           <Route path="/admin" element={<Admin />} />

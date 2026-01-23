@@ -12,8 +12,8 @@ const Footer = () => {
         <div className="flex flex-col items-start">
           <h3 className="text-lg font-bold mb-4 md:mb-6 tracking-wider text-yellow-500">ABOUT US</h3>
           <Link to="/" className="inline-block mb-6">
-            {/* Removed 'bg-white' class to respect PNG transparency */}
-            <img src={logo} alt="Corazon Homes" className="h-12 md:h-14 p-2" />
+            {/* Logo with filter to make it white on dark background */}
+            <img src={logo} alt="Corazon Homes" className="h-12 md:h-14 p-2 brightness-0 invert" />
           </Link>
           
           <div className="mb-6">
@@ -34,7 +34,8 @@ const Footer = () => {
           <ul className="space-y-3 text-sm text-gray-300">
             <li><Link to="/about" className="hover:text-yellow-500 transition flex items-center group"><span className="text-yellow-600 mr-2 group-hover:translate-x-1 transition">›</span> About Us</Link></li>
             <li><Link to="/contact" className="hover:text-yellow-500 transition flex items-center group"><span className="text-yellow-600 mr-2 group-hover:translate-x-1 transition">›</span> Contact Us</Link></li>
-            <li><a href="#" className="hover:text-yellow-500 transition flex items-center group"><span className="text-yellow-600 mr-2 group-hover:translate-x-1 transition">›</span> EMI Calculator</a></li>
+            {/* UPDATED: Linked to EMI Calculator Page */}
+            <li><Link to="/emi-calculator" className="hover:text-yellow-500 transition flex items-center group"><span className="text-yellow-600 mr-2 group-hover:translate-x-1 transition">›</span> EMI Calculator</Link></li>
             <li><Link to="/gallery" className="hover:text-yellow-500 transition flex items-center group"><span className="text-yellow-600 mr-2 group-hover:translate-x-1 transition">›</span> Achievement</Link></li>
             <li><a href="#" className="hover:text-yellow-500 transition flex items-center group"><span className="text-yellow-600 mr-2 group-hover:translate-x-1 transition">›</span> Our Partner</a></li>
           </ul>
@@ -78,7 +79,7 @@ const Footer = () => {
 
       {/* BOTTOM BAR */}
       <div className="max-w-[95rem] mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-gray-800 flex justify-center items-center text-xs text-gray-500">
-        <p>© 2026 abc. All Right Reserved.</p>
+        <p>© 2026 ABC. All Right Reserved.</p>
       </div>
     </footer>
   );
