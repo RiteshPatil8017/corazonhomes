@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import Hero from './components/Hero';
 import AchievementGallery from './components/AchievementGallery'; 
 import Contact from './components/Contact';
+import ScrollToTop from './components/ScrollToTop'; // <--- IMPORT THIS
 
 // Pages
 import AboutUs from './pages/AboutUs/AboutUs';
@@ -38,6 +39,9 @@ const Home = () => (
 function App() {
   return (
     <div className="min-h-screen flex flex-col">
+      {/* ScrollToTop component listens for route changes and scrolls up */}
+      <ScrollToTop />
+      
       <Navbar />
       <main className="flex-grow">
         <Routes>
