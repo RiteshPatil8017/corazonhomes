@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Phone, ChevronDown } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false); // State to track scroll position
+  const [scrolled, setScrolled] = useState(false);
+  
+  // Get current route to determine text color logic
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
 
   // Independent states for mobile dropdowns
   const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false);
@@ -27,41 +31,40 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // --- DYNAMIC TEXT CLASSES ---
-  // Logic: 
-  // 1. If Scrolled or Mobile Menu Open: Dark Text (Background is White)
-  // 2. If Desktop Top (Transparent): White Text, turning Dark on Hover
-  const logoTextClass = (scrolled || isOpen) 
+  // --- DYNAMIC CLASSES ---
+
+  // 1. Text Color Logic:
+  // If Scrolled OR Menu Open OR NOT Home Page -> Always Dark Text
+  // If Home Page (Desktop Top) -> White Text, turning Dark on Hover
+  const textColorClass = (scrolled || isOpen || !isHomePage)
     ? "text-gray-900" 
     : "text-gray-900 xl:text-white xl:group-hover:text-gray-900";
 
-  const linkTextClass = (scrolled || isOpen)
-    ? "text-gray-700 hover:text-black"
-    : "text-gray-700 xl:text-white xl:group-hover:text-gray-700 xl:hover:text-black";
+  // 2. Navigation Background Logic (Applies to ALL pages):
+  // Mobile/Scrolled/MenuOpen -> White Background
+  // Desktop Top -> Transparent, turning White on Hover
+  const navBackgroundClass = (scrolled || isOpen)
+    ? "bg-white border-gray-100 shadow-sm"
+    : "bg-white border-gray-100 xl:bg-transparent xl:border-transparent xl:hover:bg-white/95 xl:hover:backdrop-blur-md xl:hover:border-gray-100 xl:hover:shadow-sm";
 
   return (
-    // Added 'group' class to parent nav to control children on hover
-    <nav className={`fixed w-full z-50 transition-all duration-300 border-b group
-      ${scrolled || isOpen 
-        ? 'bg-white border-gray-100 shadow-sm' 
-        : 'bg-white border-gray-100 xl:bg-transparent xl:border-transparent xl:hover:bg-white/95 xl:hover:backdrop-blur-md xl:hover:border-gray-100 xl:hover:shadow-sm'
-      }`}
-    >
+    <nav className={`fixed w-full z-50 transition-all duration-300 border-b group ${navBackgroundClass}`}>
+      
       {/* Container */}
       <div className="max-w-[95rem] mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
         
         {/* LOGO */}
-        <Link to="/" className={`text-2xl font-serif font-bold tracking-wide shrink-0 transition-colors ${logoTextClass}`} onClick={closeMenu}>
+        <Link to="/" className={`text-2xl font-serif font-bold tracking-wide shrink-0 transition-colors ${textColorClass}`} onClick={closeMenu}>
           CORAZON<span className="text-yellow-600">HOMES</span>
         </Link>
         
         {/* DESKTOP MENU */}
         <div className="hidden xl:flex items-center space-x-6 text-[13px] font-medium uppercase tracking-wider">
-          <Link to="/" className={`transition-colors ${linkTextClass}`}>Home</Link>
+          <Link to="/" className={`transition-colors hover:text-yellow-600 ${textColorClass}`}>Home</Link>
           
           {/* About Us Dropdown */}
           <div className="relative group/dropdown h-full">
-            <button className={`flex items-center gap-1 transition-colors uppercase h-full py-2 ${linkTextClass}`}>
+            <button className={`flex items-center gap-1 transition-colors uppercase h-full py-2 hover:text-yellow-600 ${textColorClass}`}>
               About Us <ChevronDown size={14} />
             </button>
             <div className="absolute left-0 top-full w-56 bg-white border border-gray-100 shadow-xl opacity-0 invisible group-hover/dropdown:opacity-100 group-hover/dropdown:visible transition-all duration-300 transform translate-y-2 group-hover/dropdown:translate-y-0 text-gray-700">
@@ -76,7 +79,7 @@ const Navbar = () => {
 
           {/* Benefits Dropdown */}
           <div className="relative group/dropdown h-full">
-            <button className={`flex items-center gap-1 transition-colors uppercase h-full py-2 ${linkTextClass}`}>
+            <button className={`flex items-center gap-1 transition-colors uppercase h-full py-2 hover:text-yellow-600 ${textColorClass}`}>
               Benefits <ChevronDown size={14} />
             </button>
             <div className="absolute left-0 top-full w-56 bg-white border border-gray-100 shadow-xl opacity-0 invisible group-hover/dropdown:opacity-100 group-hover/dropdown:visible transition-all duration-300 transform translate-y-2 group-hover/dropdown:translate-y-0 text-gray-700">
@@ -89,12 +92,12 @@ const Navbar = () => {
             </div>
           </div>
 
-          <Link to="/residential" className={`transition-colors ${linkTextClass}`}>Residential</Link>
-          <Link to="/commercial" className={`transition-colors ${linkTextClass}`}>Commercial</Link>
-          <Link to="/gallery" className={`transition-colors whitespace-nowrap ${linkTextClass}`}>Achievement Gallery</Link>
-          <a href="#" className={`transition-colors ${linkTextClass}`}>Partners</a>
-          <Link to="/careers" className={`transition-colors ${linkTextClass}`}>Careers</Link>
-          <Link to="/contact" className={`transition-colors whitespace-nowrap ${linkTextClass}`}>Contact Us</Link>
+          <Link to="/residential" className={`transition-colors hover:text-yellow-600 ${textColorClass}`}>Residential</Link>
+          <Link to="/commercial" className={`transition-colors hover:text-yellow-600 ${textColorClass}`}>Commercial</Link>
+          <Link to="/gallery" className={`transition-colors whitespace-nowrap hover:text-yellow-600 ${textColorClass}`}>Achievement Gallery</Link>
+          <a href="#" className={`transition-colors hover:text-yellow-600 ${textColorClass}`}>Partners</a>
+          <Link to="/careers" className={`transition-colors hover:text-yellow-600 ${textColorClass}`}>Careers</Link>
+          <Link to="/contact" className={`transition-colors whitespace-nowrap hover:text-yellow-600 ${textColorClass}`}>Contact Us</Link>
         </div>
 
         {/* RIGHT SIDE: Phone & Hamburger */}
