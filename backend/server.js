@@ -69,7 +69,6 @@ app.post('/api/gallery/upload', async (req, res) => {
   } catch (error) { res.status(500).json({ error: "Upload Failed" }); }
 });
 
-// NEW: Delete Gallery Image
 app.delete('/api/gallery/:id', async (req, res) => {
   try {
     await GalleryImage.findByIdAndDelete(req.params.id);
@@ -77,7 +76,6 @@ app.delete('/api/gallery/:id', async (req, res) => {
   } catch (error) { res.status(500).json({ error: "Delete Failed" }); }
 });
 
-// NEW: Update Gallery Title
 app.put('/api/gallery/:id', async (req, res) => {
   try {
     const { title } = req.body;
@@ -103,6 +101,27 @@ app.post('/api/residential/add', async (req, res) => {
   } catch (error) { res.status(500).json({ error: "Add Failed" }); }
 });
 
+// ✅ ADDED: Update Residential Project
+app.put('/api/residential/:id', async (req, res) => {
+  try {
+    const { title, location, type, price, image } = req.body;
+    
+    // Create update object
+    const updateData = { title, location, type, price };
+    
+    // Only update image if a new one is provided
+    if (image) {
+      updateData.imageData = image;
+    }
+
+    await ResidentialProject.findByIdAndUpdate(req.params.id, updateData);
+    res.json({ message: "Residential Project Updated" });
+  } catch (error) { 
+    console.error(error);
+    res.status(500).json({ error: "Update Failed" }); 
+  }
+});
+
 app.delete('/api/residential/:id', async (req, res) => {
   try {
     await ResidentialProject.findByIdAndDelete(req.params.id);
@@ -125,6 +144,24 @@ app.post('/api/commercial/add', async (req, res) => {
     await newProject.save();
     res.status(201).json({ message: "Commercial Project Added" });
   } catch (error) { res.status(500).json({ error: "Add Failed" }); }
+});
+
+// ✅ ADDED: Update Commercial Project
+app.put('/api/commercial/:id', async (req, res) => {
+  try {
+    const { title, location, type, price, image } = req.body;
+    
+    const updateData = { title, location, type, price };
+    if (image) {
+      updateData.imageData = image;
+    }
+
+    await CommercialProject.findByIdAndUpdate(req.params.id, updateData);
+    res.json({ message: "Commercial Project Updated" });
+  } catch (error) { 
+    console.error(error);
+    res.status(500).json({ error: "Update Failed" }); 
+  }
 });
 
 app.delete('/api/commercial/:id', async (req, res) => {
