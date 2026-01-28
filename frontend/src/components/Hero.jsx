@@ -92,8 +92,8 @@ const Hero = () => {
       {/* LAYER 2: Content Wrapper - Flex Column to manage vertical space */}
       <div className="relative z-10 w-full h-full flex flex-col justify-between">
         
-        {/* Spacer for Navbar (Optional, keeps center alignment nice) */}
-        <div className="hidden md:block h-20"></div>
+        {/* Spacer for Navbar: Added 'h-28' for mobile to push content down from fixed navbar */}
+        <div className="h-28 md:h-20 shrink-0"></div>
 
         {/* CENTER CONTENT: Search Bar */}
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 flex flex-col items-center justify-center flex-grow">
