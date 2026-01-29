@@ -52,6 +52,11 @@ const CommercialProject = mongoose.model('CommercialProject', CommercialSchema);
 
 // --- ROUTES ---
 
+// ✅ NEW: Health Check Route (Required for Cron Job / Monitoring)
+app.get('/', (req, res) => {
+  res.send('Corazon Homes Backend is Running!');
+});
+
 // -- Gallery Routes --
 app.get('/api/gallery', async (req, res) => {
   try {
@@ -101,7 +106,7 @@ app.post('/api/residential/add', async (req, res) => {
   } catch (error) { res.status(500).json({ error: "Add Failed" }); }
 });
 
-// ✅ ADDED: Update Residential Project
+// ✅ EDIT Residential Project
 app.put('/api/residential/:id', async (req, res) => {
   try {
     const { title, location, type, price, image } = req.body;
@@ -146,7 +151,7 @@ app.post('/api/commercial/add', async (req, res) => {
   } catch (error) { res.status(500).json({ error: "Add Failed" }); }
 });
 
-// ✅ ADDED: Update Commercial Project
+// ✅ EDIT Commercial Project
 app.put('/api/commercial/:id', async (req, res) => {
   try {
     const { title, location, type, price, image } = req.body;
